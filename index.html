@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- Floating Hearts Background -->
     <div class="hearts-container" id="heartsContainer"></div>
-    
+
     <!-- Main Content -->
     <main class="container" id="mainContainer">
         <!-- Question Screen -->
@@ -63,16 +65,38 @@
             <p class="hint-text" id="hintText">Just say Yes already!</p>
         </div>
 
-        <!-- Celebration Screen (Hidden Initially) -->
         <div class="screen celebration-screen hidden" id="celebrationScreen">
             <div class="celebration-content">
-                <div class="big-heart">💖</div>
-                <h1 class="yay-text">Yay! 🎉</h1>
-                <p class="love-message">
-                    I'm the luckiest guy in the world. I can't wait to spend Valentine's Day (and every day after) making you smile. Thank you for being mine.
-                </p>
+                <div class="big-heart" style="font-size: 3rem; margin-bottom: 10px;">💖</div>
+                <h1 class="yay-text" style="font-size: 2.2rem; margin-bottom: 15px;">Yay! 🎉</h1>
+
+                <!-- Gift Box -->
+                <div class="gift-box-container" id="giftBoxContainer">
+                    <div class="gift-box" id="giftBox">
+                        <div class="gift-lid" id="giftLid">
+                            <div class="lid-bow">🎀</div>
+                        </div>
+                        <div class="gift-body">
+                            <div class="gift-ribbon-v"></div>
+                            <div class="gift-ribbon-h"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo that pulls out from gift box -->
+                <div class="photo-reveal hidden" id="photoReveal">
+                    <div class="photo-frame">
+                        <img src="couple.jpg" alt="Us together 💕" class="couple-photo">
+                    </div>
+                    <!-- Special Message right below the photo -->
+                    <p class="love-message" id="loveMessage" style="margin-top: 15px;">
+                        I'm the luckiest guy in the world. I can't wait to spend Valentine's Day (and every day after)
+                        making you smile. Thank you for being mine.
+                    </p>
+                </div>
+
                 <div class="hearts-burst" id="heartsBurst"></div>
-                <div class="couple-emoji">👫💕</div>
+                <div class="couple-emoji hidden" id="coupleEmoji" style="font-size: 2rem;">👫💕</div>
             </div>
         </div>
     </main>
@@ -82,4 +106,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

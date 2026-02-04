@@ -14,6 +14,51 @@ document.addEventListener('DOMContentLoaded', function () {
     const heartsBurst = document.getElementById('heartsBurst');
     const confettiCanvas = document.getElementById('confettiCanvas');
 
+    // Gift box elements
+    const giftBox = document.getElementById('giftBox');
+    const giftLid = document.getElementById('giftLid');
+    const photoReveal = document.getElementById('photoReveal');
+
+    // Gift box click handler
+    if (giftBox) {
+        giftBox.addEventListener('click', function () {
+            // Open the lid
+            giftLid.classList.add('open');
+            giftBox.classList.add('opened');
+
+            // After lid opens, start the pull-out animation
+            setTimeout(() => {
+                photoReveal.classList.remove('hidden');
+                photoReveal.classList.add('pulling');
+
+                // After pull-out animation completes, add show class
+                setTimeout(() => {
+                    photoReveal.classList.remove('pulling');
+                    photoReveal.classList.add('show');
+
+                    // Show the couple emoji
+                    const coupleEmoji = document.getElementById('coupleEmoji');
+                    if (coupleEmoji) {
+                        coupleEmoji.classList.remove('hidden');
+                    }
+
+                    // Trigger celebration effects after photo is revealed
+                    createHeartsBurst();
+                    startConfetti();
+                }, 5000);
+
+                // Shrink the gift box to make room
+                giftBox.style.transition = 'all 0.5s ease';
+                giftBox.style.transform = 'scale(0.5)';
+                giftBox.style.opacity = '0.3';
+
+                setTimeout(() => {
+                    giftBox.style.display = 'none';
+                }, 500);
+            }, 600);
+        });
+    }
+
     // Cute hint messages when hovering over No button
     const hintMessages = [
         "Just say Yes already! 💕",
@@ -49,30 +94,49 @@ document.addEventListener('DOMContentLoaded', function () {
         createFloatingHearts(30);
     });
 
-    // No button - shrink and run away!
+    // No button - jump around the screen with bouncy animation when hovered!
     noBtn.addEventListener('mouseenter', function () {
         noButtonAttempts++;
 
-        // Shrink the button
-        noButtonScale = Math.max(0.3, noButtonScale - 0.15);
-        this.style.transform = `scale(${noButtonScale})`;
+        // Make button position fixed so it can move anywhere
+        this.style.position = 'fixed';
+        this.style.zIndex = '1000';
 
-        // Move button to random position
-        if (noButtonAttempts > 2) {
-            const containerRect = document.querySelector('.buttons-container').getBoundingClientRect();
-            const randomX = (Math.random() - 0.5) * 200;
-            const randomY = (Math.random() - 0.5) * 100;
-            this.style.transform = `scale(${noButtonScale}) translate(${randomX}px, ${randomY}px)`;
-        }
+        // Add visible border for clarity
+        this.style.border = '3px solid #E91E8C';
+        this.style.boxShadow = '0 4px 15px rgba(233, 30, 140, 0.3)';
 
-        // Change hint text
+        // Calculate random position anywhere on screen (with padding from edges)
+        const padding = 120;
+        const randomX = padding + Math.random() * (window.innerWidth - this.offsetWidth - padding * 2);
+        const randomY = padding + Math.random() * (window.innerHeight - this.offsetHeight - padding * 2);
+
+        // Apply bouncy jumping animation to new position
+        this.style.transition = 'left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        this.style.left = randomX + 'px';
+        this.style.top = randomY + 'px';
+
+        // Add a little jump effect
+        this.classList.add('jumping');
+        setTimeout(() => {
+            this.classList.remove('jumping');
+        }, 400);
+
+        // Change hint text with cute messages
         hintText.textContent = hintMessages[hintIndex % hintMessages.length];
         hintText.style.opacity = '1';
         hintIndex++;
 
-        // Make Yes button bigger each time
-        const currentYesScale = 1 + (noButtonAttempts * 0.05);
+        // Make Yes button bigger and more attractive each time
+        const currentYesScale = 1 + (noButtonAttempts * 0.03);
         yesBtn.style.transform = `scale(${Math.min(currentYesScale, 1.3)})`;
+
+        // After many attempts, button runs away completely
+        if (noButtonAttempts >= 20) {
+            this.style.opacity = '0';
+            this.style.pointerEvents = 'none';
+            hintText.textContent = "The No button ran away! 🏃‍♂️💨 Just click Yes! 💖";
+        }
     });
 
     noBtn.addEventListener('click', function (e) {
