@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A special Valentine's Day message for Bhavna 💕">
+    <meta name="description" content="A special Valentine's Day message for Nikita 💕">
     <title>Will You Be My Valentine? 💕</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,7 +48,7 @@
 
             <!-- Question Text -->
             <h1 class="question-text">
-                <span class="name">Bhavna</span> will you be my valentine?
+                <span class="name">Nikita</span> will you be my valentine?
             </h1>
 
             <!-- Buttons -->
@@ -67,42 +67,26 @@
 
         <div class="screen celebration-screen hidden" id="celebrationScreen">
             <div class="celebration-content">
-                <div class="big-heart" style="font-size: 3rem; margin-bottom: 10px;">💖</div>
-                <h1 class="yay-text" style="font-size: 2.2rem; margin-bottom: 15px;">Yay! 🎉</h1>
-
-                <!-- Gift Box -->
-                <div class="gift-box-container" id="giftBoxContainer">
-                    <div class="gift-box" id="giftBox">
-                        <div class="gift-lid" id="giftLid">
-                            <div class="lid-bow">🎀</div>
-                        </div>
-                        <div class="gift-body">
-                            <div class="gift-ribbon-v"></div>
-                            <div class="gift-ribbon-h"></div>
-                        </div>
+                <!-- DDLJ Movie Scene GIF -->
+                <div class="movie-scene-container" id="movieScene">
+                    <div class="gif-wrapper">
+                        <img 
+                            src="DDLJ_last_train_scene_HQ_720p.gif" 
+                            alt="DDLJ Train Scene - Shah Rukh Khan & Kajol" 
+                            class="ddlj-gif"
+                            id="ddljGif"
+                        />
                     </div>
                 </div>
-
-                <!-- Photo that pulls out from gift box -->
-                <div class="photo-reveal hidden" id="photoReveal">
-                    <div class="photo-frame">
-                        <img src="couple.jpg" alt="Us together 💕" class="couple-photo">
-                    </div>
-                    <!-- Special Message right below the photo -->
-                    <p class="love-message" id="loveMessage" style="margin-top: 15px;">
-                        I'm the luckiest guy in the world. I can't wait to spend Valentine's Day (and every day after)
-                        making you smile. Thank you for being mine.
-                    </p>
+                
+                <!-- Message after GIF -->
+                <div class="romantic-message-box" id="romanticMessage">
+                    <h1 class="romantic-text">We're together now! 💖</h1>
+                    <p class="love-note">Just like in the movies, I'll always reach for you, Nikita. You're my forever Valentine! 🌹</p>
                 </div>
-
-                <div class="hearts-burst" id="heartsBurst"></div>
-                <div class="couple-emoji hidden" id="coupleEmoji" style="font-size: 2rem;">👫💕</div>
             </div>
         </div>
     </main>
-
-    <!-- Confetti Canvas -->
-    <canvas id="confettiCanvas"></canvas>
 
     <script src="script.js"></script>
 </body>

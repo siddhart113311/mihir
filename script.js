@@ -1,6 +1,6 @@
 // ==================== 
 // Valentine Website Script
-// Interactive magic for Bhavna's Valentine surprise
+// Interactive magic for Nikita's Valentine surprise
 // ====================
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -11,53 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const celebrationScreen = document.getElementById('celebrationScreen');
     const hintText = document.getElementById('hintText');
     const heartsContainer = document.getElementById('heartsContainer');
-    const heartsBurst = document.getElementById('heartsBurst');
-    const confettiCanvas = document.getElementById('confettiCanvas');
-
-    // Gift box elements
-    const giftBox = document.getElementById('giftBox');
-    const giftLid = document.getElementById('giftLid');
-    const photoReveal = document.getElementById('photoReveal');
-
-    // Gift box click handler
-    if (giftBox) {
-        giftBox.addEventListener('click', function () {
-            // Open the lid
-            giftLid.classList.add('open');
-            giftBox.classList.add('opened');
-
-            // After lid opens, start the pull-out animation
-            setTimeout(() => {
-                photoReveal.classList.remove('hidden');
-                photoReveal.classList.add('pulling');
-
-                // After pull-out animation completes, add show class
-                setTimeout(() => {
-                    photoReveal.classList.remove('pulling');
-                    photoReveal.classList.add('show');
-
-                    // Show the couple emoji
-                    const coupleEmoji = document.getElementById('coupleEmoji');
-                    if (coupleEmoji) {
-                        coupleEmoji.classList.remove('hidden');
-                    }
-
-                    // Trigger celebration effects after photo is revealed
-                    createHeartsBurst();
-                    startConfetti();
-                }, 5000);
-
-                // Shrink the gift box to make room
-                giftBox.style.transition = 'all 0.5s ease';
-                giftBox.style.transform = 'scale(0.5)';
-                giftBox.style.opacity = '0.3';
-
-                setTimeout(() => {
-                    giftBox.style.display = 'none';
-                }, 500);
-            }, 600);
-        });
-    }
 
     // Cute hint messages when hovering over No button
     const hintMessages = [
@@ -83,15 +36,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Hide question screen
         questionScreen.classList.add('hidden');
 
-        // Show celebration screen
+        // Show celebration screen with DDLJ movie scene
         celebrationScreen.classList.remove('hidden');
 
-        // Trigger celebration effects
-        createHeartsBurst();
-        startConfetti();
-
-        // More floating hearts
-        createFloatingHearts(30);
+        // Keep floating hearts in background
+        createFloatingHearts(20);
     });
 
     // No button - jump around the screen with bouncy animation when hovered!
@@ -106,10 +55,31 @@ document.addEventListener('DOMContentLoaded', function () {
         this.style.border = '3px solid #E91E8C';
         this.style.boxShadow = '0 4px 15px rgba(233, 30, 140, 0.3)';
 
-        // Calculate random position anywhere on screen (with padding from edges)
-        const padding = 120;
-        const randomX = padding + Math.random() * (window.innerWidth - this.offsetWidth - padding * 2);
-        const randomY = padding + Math.random() * (window.innerHeight - this.offsetHeight - padding * 2);
+        // Get accurate viewport and button dimensions dynamically
+        // Use visualViewport for better mobile support
+        const viewportWidth = window.visualViewport ? window.visualViewport.width : (window.innerWidth || document.documentElement.clientWidth);
+        const viewportHeight = window.visualViewport ? window.visualViewport.height : (window.innerHeight || document.documentElement.clientHeight);
+        
+        // Get button dimensions before it moves
+        const buttonWidth = this.offsetWidth || 100; // fallback to 100px
+        const buttonHeight = this.offsetHeight || 50; // fallback to 50px
+        
+        // Use minimal padding on mobile, moderate on desktop
+        const padding = viewportWidth < 768 ? 10 : 40;
+        
+        // Calculate safe boundaries
+        const minX = padding;
+        const maxX = viewportWidth - buttonWidth - padding;
+        const minY = padding;
+        const maxY = viewportHeight - buttonHeight - padding;
+        
+        // Generate random position and clamp to safe boundaries
+        let randomX = minX + Math.random() * Math.max(0, maxX - minX);
+        let randomY = minY + Math.random() * Math.max(0, maxY - minY);
+        
+        // Final safety clamp to absolutely ensure within bounds
+        randomX = Math.max(0, Math.min(randomX, viewportWidth - buttonWidth));
+        randomY = Math.max(0, Math.min(randomY, viewportHeight - buttonHeight));
 
         // Apply bouncy jumping animation to new position
         this.style.transition = 'left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
@@ -143,20 +113,65 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         noButtonAttempts++;
 
-        // Button runs away more dramatically
-        const randomX = (Math.random() - 0.5) * 400;
-        const randomY = (Math.random() - 0.5) * 200;
-        noButtonScale = Math.max(0.2, noButtonScale - 0.2);
-        this.style.transform = `scale(${noButtonScale}) translate(${randomX}px, ${randomY}px)`;
+        // Make button position fixed
+        this.style.position = 'fixed';
+        this.style.zIndex = '1000';
+
+        // Get accurate viewport dimensions
+        const viewportWidth = window.visualViewport ? window.visualViewport.width : (window.innerWidth || document.documentElement.clientWidth);
+        const viewportHeight = window.visualViewport ? window.visualViewport.height : (window.innerHeight || document.documentElement.clientHeight);
+        
+        // Get button dimensions
+        const buttonWidth = this.offsetWidth || 100;
+        const buttonHeight = this.offsetHeight || 50;
+        
+        console.log('Click - Viewport:', viewportWidth, 'x', viewportHeight);
+        console.log('Click - Button size:', buttonWidth, 'x', buttonHeight);
+        
+        // Use minimal padding on mobile
+        const padding = viewportWidth < 768 ? 15 : 40;
+        
+        // Calculate safe boundaries - ensure we have positive space
+        const maxX = Math.max(padding, viewportWidth - buttonWidth - padding);
+        const maxY = Math.max(padding, viewportHeight - buttonHeight - padding);
+        
+        // If there's not enough space, use minimal positioning
+        if (maxX <= padding || maxY <= padding) {
+            randomX = Math.min(padding, viewportWidth - buttonWidth - 5);
+            randomY = Math.min(padding, viewportHeight - buttonHeight - 5);
+        } else {
+            // Generate random position within safe bounds
+            randomX = padding + Math.random() * (maxX - padding);
+            randomY = padding + Math.random() * (maxY - padding);
+        }
+        
+        // Absolute final clamp - ensure it's within viewport
+        randomX = Math.max(5, Math.min(randomX, viewportWidth - buttonWidth - 5));
+        randomY = Math.max(5, Math.min(randomY, viewportHeight - buttonHeight - 5));
+        
+        console.log('Click - New position:', randomX, randomY);
+        
+        // Apply position with animation
         this.style.transition = 'all 0.3s ease';
+        this.style.left = randomX + 'px';
+        this.style.top = randomY + 'px';
+        
+        // Shrink button slightly
+        noButtonScale = Math.max(0.5, noButtonScale - 0.1);
+        this.style.transform = `scale(${noButtonScale})`;
 
         // Show hint
         hintText.textContent = hintMessages[hintIndex % hintMessages.length];
         hintText.style.opacity = '1';
         hintIndex++;
 
+        // Make Yes button bigger and more attractive each time
+        const currentYesScale = 1 + (noButtonAttempts * 0.05);
+        yesBtn.style.transform = `scale(${Math.min(currentYesScale, 2.0)})`;
+        yesBtn.style.transition = 'transform 0.3s ease';
+
         // If they tried too many times, hide the no button completely
-        if (noButtonAttempts >= 5) {
+        if (noButtonAttempts >= 15) {
             this.style.opacity = '0';
             this.style.pointerEvents = 'none';
             hintText.textContent = "The No button ran away! 🏃‍♂️💨 Just click Yes! 💖";
@@ -200,119 +215,4 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 10000);
         }, 800);
     }
-
-    // Create hearts burst effect
-    function createHeartsBurst() {
-        const burstHearts = ['💕', '💖', '💗', '💓', '💘', '❤️', '💝', '🩷', '✨', '⭐'];
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-
-        for (let i = 0; i < 40; i++) {
-            setTimeout(() => {
-                const heart = document.createElement('div');
-                heart.className = 'burst-heart';
-                heart.textContent = burstHearts[Math.floor(Math.random() * burstHearts.length)];
-                heart.style.left = centerX + 'px';
-                heart.style.top = centerY + 'px';
-
-                const angle = (Math.PI * 2 / 40) * i + Math.random() * 0.5;
-                const distance = 200 + Math.random() * 300;
-                const tx = Math.cos(angle) * distance + 'px';
-                const ty = Math.sin(angle) * distance + 'px';
-                heart.style.setProperty('--tx', tx);
-                heart.style.setProperty('--ty', ty);
-                heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
-
-                heartsBurst.appendChild(heart);
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 2000);
-            }, i * 30);
-        }
-    }
-
-    // Confetti effect
-    function startConfetti() {
-        const ctx = confettiCanvas.getContext('2d');
-        confettiCanvas.width = window.innerWidth;
-        confettiCanvas.height = window.innerHeight;
-
-        const confettiPieces = [];
-        const colors = ['#E91E8C', '#FF6BB3', '#FFB6D9', '#FF4AA2', '#E91E63', '#FFD700', '#FF69B4'];
-
-        // Create confetti pieces
-        for (let i = 0; i < 200; i++) {
-            confettiPieces.push({
-                x: Math.random() * confettiCanvas.width,
-                y: Math.random() * confettiCanvas.height - confettiCanvas.height,
-                size: Math.random() * 10 + 5,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                speedY: Math.random() * 3 + 2,
-                speedX: (Math.random() - 0.5) * 2,
-                rotation: Math.random() * 360,
-                rotationSpeed: (Math.random() - 0.5) * 10,
-                shape: Math.random() > 0.5 ? 'rect' : 'circle'
-            });
-        }
-
-        function animateConfetti() {
-            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-
-            let activeConfetti = false;
-
-            confettiPieces.forEach(piece => {
-                if (piece.y < confettiCanvas.height + 50) {
-                    activeConfetti = true;
-                    piece.y += piece.speedY;
-                    piece.x += piece.speedX;
-                    piece.rotation += piece.rotationSpeed;
-
-                    ctx.save();
-                    ctx.translate(piece.x, piece.y);
-                    ctx.rotate(piece.rotation * Math.PI / 180);
-                    ctx.fillStyle = piece.color;
-
-                    if (piece.shape === 'rect') {
-                        ctx.fillRect(-piece.size / 2, -piece.size / 4, piece.size, piece.size / 2);
-                    } else {
-                        ctx.beginPath();
-                        ctx.arc(0, 0, piece.size / 2, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-
-                    ctx.restore();
-                }
-            });
-
-            if (activeConfetti) {
-                requestAnimationFrame(animateConfetti);
-            }
-        }
-
-        animateConfetti();
-
-        // Multiple bursts of confetti
-        setTimeout(() => {
-            confettiPieces.forEach(piece => {
-                piece.y = Math.random() * -500;
-                piece.x = Math.random() * confettiCanvas.width;
-            });
-            animateConfetti();
-        }, 2000);
-
-        setTimeout(() => {
-            confettiPieces.forEach(piece => {
-                piece.y = Math.random() * -500;
-                piece.x = Math.random() * confettiCanvas.width;
-            });
-            animateConfetti();
-        }, 4000);
-    }
-
-    // Handle window resize for confetti
-    window.addEventListener('resize', function () {
-        confettiCanvas.width = window.innerWidth;
-        confettiCanvas.height = window.innerHeight;
-    });
 });

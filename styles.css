@@ -1,12 +1,17 @@
 /* ==================== 
    Valentine Website Styles
-   A cute, romantic website for Bhavna
+   A cute, romantic website for Nikita
    ==================== */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    overflow: hidden;
+    height: 100%;
 }
 
 :root {
@@ -22,13 +27,12 @@
 
 body {
     font-family: 'Outfit', sans-serif;
-    min-height: 100vh;
+    height: 100vh;
     background: linear-gradient(135deg, #FFF5F8 0%, #FFE8F0 50%, #FFF0F5 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
     position: relative;
 }
 
@@ -390,7 +394,7 @@ body {
     }
 }
 
-/* ==================== Celebration Screen ==================== */
+/* ==================== Celebration Screen - Movie Scene ==================== */
 .celebration-screen {
     animation: fadeIn 0.5s ease forwards;
 }
@@ -412,371 +416,144 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: auto;
-    padding: 10px;
-    gap: 8px;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 20px;
+    gap: 30px;
 }
 
-.big-heart {
-    font-size: 2rem;
-    animation: heartBeat 1s ease-in-out infinite;
-    margin-bottom: 0;
+/* Movie Scene Container */
+.movie-scene-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: scaleIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Video Wrapper - Flexible for GIF */
+.gif-wrapper {
+    position: relative;
+    width: 100%;
+    max-height: 500px;
+    background: #000;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ddlj-gif {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+    object-fit: contain;
+}
+
+/* Romantic Message Box */
+.romantic-message-box {
+    animation: fadeInUp 1s ease-out 1s forwards;
+    opacity: 0;
+    max-width: 600px;
+    width: 100%;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.romantic-text {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--pink-primary);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: heartBeat 2s ease-in-out infinite;
 }
 
 @keyframes heartBeat {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: scale(1);
     }
-
-    25% {
-        transform: scale(1.1);
+    10% {
+        transform: scale(1.05);
     }
-
-    50% {
+    20% {
         transform: scale(1);
-    }
-
-    75% {
-        transform: scale(1.15);
     }
 }
 
-.yay-text {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--pink-primary);
-    margin-bottom: 15px;
-    animation: bounceIn 0.8s ease;
-}
-
-@keyframes bounceIn {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.love-message {
-    font-size: 1rem;
+.love-note {
+    font-size: 1.2rem;
     font-weight: 500;
     color: #555;
-    line-height: 1.5;
-    max-width: 400px;
-    width: 90%;
-    margin: 8px auto 5px;
-    padding: 10px 15px;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(233, 30, 140, 0.12);
-    backdrop-filter: blur(10px);
-}
-
-.couple-emoji {
-    font-size: 2rem;
-    animation: gentleBounce 2s ease-in-out infinite;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-}
-
-/* ==================== Gift Box ==================== */
-.gift-box-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto 5px;
-    height: 130px;
-}
-
-.gift-box {
-    position: relative;
-    cursor: pointer;
-    z-index: 10;
-    animation: giftBounce 1s ease-in-out infinite;
-}
-
-@keyframes giftBounce {
-
-    0%,
-    100% {
-        transform: translateY(0) rotate(-2deg);
-    }
-
-    50% {
-        transform: translateY(-10px) rotate(2deg);
-    }
-}
-
-.gift-box.opened {
-    animation: none;
-}
-
-.gift-body {
-    width: 120px;
-    height: 80px;
-    background: linear-gradient(135deg, #E91E8C 0%, #FF4AA2 100%);
-    border-radius: 8px 8px 15px 15px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
-}
-
-.gift-lid {
-    width: 130px;
-    height: 30px;
-    background: linear-gradient(135deg, #D4187D 0%, #E91E8C 100%);
-    border-radius: 8px 8px 0 0;
-    position: relative;
+    line-height: 1.8;
     margin: 0 auto;
-    margin-bottom: -5px;
-    left: -5px;
-    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    transform-origin: left bottom;
-    box-shadow: 0 -5px 15px rgba(233, 30, 140, 0.2);
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(233, 30, 140, 0.2);
+    border: 2px solid rgba(233, 30, 140, 0.1);
 }
 
-.gift-lid.open {
-    transform: rotate(-110deg) translateY(-30px);
-}
-
-.lid-bow {
-    position: absolute;
-    top: -35px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2.5rem;
-    animation: bowWiggle 2s ease-in-out infinite;
-}
-
-@keyframes bowWiggle {
-
-    0%,
-    100% {
-        transform: translateX(-50%) rotate(-5deg);
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .movie-scene-container {
+        max-width: 100%;
+        border-radius: 15px;
     }
-
-    50% {
-        transform: translateX(-50%) rotate(5deg);
+    
+    .romantic-text {
+        font-size: 2rem;
+    }
+    
+    .love-note {
+        font-size: 1rem;
+        padding: 15px 20px;
+    }
+    
+    .overlay-text {
+        font-size: 1.2rem;
     }
 }
 
-.gift-ribbon-v {
-    position: absolute;
-    width: 20px;
-    height: 100%;
-    background: linear-gradient(90deg, #FFD700 0%, #FFC107 100%);
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: inset 2px 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.gift-ribbon-h {
-    position: absolute;
-    width: 100%;
-    height: 20px;
-    background: linear-gradient(180deg, #FFD700 0%, #FFC107 100%);
-    top: 30%;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Photo Reveal - Pull out animation */
-.photo-reveal {
-    position: relative;
-    margin-top: 5px;
-    transform: translateY(100px) scale(0.3);
-    opacity: 0;
-    z-index: 20;
-    overflow: hidden;
-    max-height: 0;
-    transition: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.photo-reveal.pulling {
-    animation: pullOutPhoto 5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.photo-reveal.show {
-    display: block !important;
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    max-height: 400px;
-}
-
-@keyframes pullOutPhoto {
-    0% {
-        opacity: 0;
-        transform: translateY(80px) scale(0.1) rotateX(40deg);
-        max-height: 0;
-    }
-
-    10% {
-        opacity: 0.15;
-        transform: translateY(70px) scale(0.15) rotateX(35deg);
-        max-height: 30px;
-    }
-
-    25% {
-        opacity: 0.3;
-        transform: translateY(55px) scale(0.3) rotateX(28deg);
-        max-height: 80px;
-    }
-
-    40% {
-        opacity: 0.5;
-        transform: translateY(45px) scale(0.45) rotateX(22deg);
-        max-height: 140px;
-    }
-
-    55% {
-        opacity: 0.65;
-        transform: translateY(35px) scale(0.6) rotateX(16deg);
-        max-height: 200px;
-    }
-
-    70% {
-        opacity: 0.8;
-        transform: translateY(22px) scale(0.75) rotateX(10deg);
-        max-height: 280px;
-    }
-
-    85% {
-        opacity: 0.92;
-        transform: translateY(10px) scale(0.9) rotateX(4deg);
-        max-height: 350px;
-    }
-
-    95% {
-        transform: translateY(2px) scale(0.98) rotateX(1deg);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1) rotateX(0deg);
-        max-height: 400px;
-    }
-}
-
-.photo-frame {
-    display: inline-block;
-    padding: 4px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 8px 25px rgba(233, 30, 140, 0.18);
-}
-
-.couple-photo {
-    display: block;
-    width: 180px;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-/* Click hint for gift box */
-.gift-box::after {
-    content: 'Click to open! 🎁';
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.85rem;
-    color: var(--pink-primary);
-    font-weight: 600;
-    white-space: nowrap;
-    animation: fadeInOut 2s ease-in-out infinite;
-    background: rgba(255, 245, 248, 0.95);
-    padding: 2px 8px;
-    border-radius: 8px;
-    z-index: 100;
-}
-
-.gift-box.opened::after {
-    display: none;
-}
-
-@keyframes fadeInOut {
-
-    0%,
-    100% {
-        opacity: 0.6;
-    }
-
-    50% {
-        opacity: 1;
-    }
-}
-
-/* Responsive photo */
 @media (max-width: 480px) {
-    .couple-photo {
-        width: 220px;
-        height: 260px;
+    .celebration-content {
+        padding: 15px;
+        gap: 20px;
     }
-
-    .gift-body {
-        width: 100px;
-        height: 70px;
+    
+    .romantic-text {
+        font-size: 1.6rem;
     }
-
-    .gift-lid {
-        width: 110px;
-        height: 25px;
+    
+    .love-note {
+        font-size: 0.95rem;
+        padding: 12px 15px;
     }
-}
-
-/* ==================== Hearts Burst ==================== */
-.hearts-burst {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 100;
-}
-
-.burst-heart {
-    position: absolute;
-    font-size: 30px;
-    animation: burstOut 2s ease-out forwards;
-}
-
-@keyframes burstOut {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0) rotate(0deg);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(360deg);
-    }
-}
-
-/* ==================== Confetti Canvas ==================== */
-#confettiCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 50;
 }
 
 /* ==================== Responsive Design ==================== */
@@ -812,6 +589,25 @@ body {
     }
 }
 
+/* Mobile button size animations */
+@keyframes mobileYesGrow {
+    0%, 100% {
+        transform: scale(1) !important;
+    }
+    50% {
+        transform: scale(1.2) !important;
+    }
+}
+
+@keyframes mobileNoShrink {
+    0%, 100% {
+        transform: scale(1) !important;
+    }
+    50% {
+        transform: scale(0.6) !important;
+    }
+}
+
 @media (max-width: 480px) {
     .question-text {
         font-size: 1.5rem;
@@ -834,5 +630,17 @@ body {
 
     .love-message {
         font-size: 1rem;
+    }
+
+    /* Apply continuous animations on mobile */
+    .yes-btn {
+        animation: mobileYesGrow 2s ease-in-out infinite !important;
+        transform-origin: center center !important;
+    }
+
+    .no-btn {
+        animation: mobileNoShrink 2s ease-in-out infinite !important;
+        transform-origin: center center !important;
+        position: relative !important;
     }
 }
