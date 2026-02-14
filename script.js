@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Make button position fixed so it can move anywhere
         this.style.position = 'fixed';
-        this.style.zIndex = '1000';
+        this.style.zIndex = '10000'; // Very high z-index to stay on top
 
         // Add visible border for clarity
         this.style.border = '3px solid #E91E8C';
@@ -71,7 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const minX = padding;
         const maxX = viewportWidth - buttonWidth - padding;
         const minY = padding;
-        const maxY = viewportHeight - buttonHeight - padding;
+        // Limit to upper 40% of screen to avoid Yes button covering it
+        const maxY = Math.min((viewportHeight * 0.4) - buttonHeight, viewportHeight - buttonHeight - padding);
         
         // Generate random position and clamp to safe boundaries
         let randomX = minX + Math.random() * Math.max(0, maxX - minX);
@@ -98,8 +99,11 @@ document.addEventListener('DOMContentLoaded', function () {
         hintIndex++;
 
         // Make Yes button bigger and more attractive each time
+        // Limit growth on mobile to prevent covering the No button
+        const isMobile = viewportWidth < 768;
+        const maxScale = isMobile ? 1.15 : 1.3; // Smaller max on mobile
         const currentYesScale = 1 + (noButtonAttempts * 0.03);
-        yesBtn.style.transform = `scale(${Math.min(currentYesScale, 1.3)})`;
+        yesBtn.style.transform = `scale(${Math.min(currentYesScale, maxScale)})`;
 
         // After many attempts, button runs away completely
         if (noButtonAttempts >= 20) {
@@ -115,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Make button position fixed
         this.style.position = 'fixed';
-        this.style.zIndex = '1000';
+        this.style.zIndex = '10000'; // Very high z-index to stay on top
 
         // Get accurate viewport dimensions
         const viewportWidth = window.visualViewport ? window.visualViewport.width : (window.innerWidth || document.documentElement.clientWidth);
@@ -132,8 +136,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const padding = viewportWidth < 768 ? 15 : 40;
         
         // Calculate safe boundaries - ensure we have positive space
+        // Limit to upper 40% of screen to avoid Yes button covering it
         const maxX = Math.max(padding, viewportWidth - buttonWidth - padding);
-        const maxY = Math.max(padding, viewportHeight - buttonHeight - padding);
+        const maxY = Math.max(padding, Math.min((viewportHeight * 0.4) - buttonHeight, viewportHeight - buttonHeight - padding));
         
         // If there's not enough space, use minimal positioning
         if (maxX <= padding || maxY <= padding) {
